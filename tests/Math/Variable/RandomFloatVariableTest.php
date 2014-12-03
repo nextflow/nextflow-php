@@ -27,11 +27,4 @@ class RandomFloatVariableTest extends PHPUnit_Framework_TestCase
 
         $this->assertLessThanOrEqual(20, $variable->getValue());
     }
-
-    public function testDecimals()
-    {
-        $variable = new RandomFloatVariable(10, 20, 1);
-
-        $this->assertEquals(4, strlen((string)$variable->getValue()));
-    }
 }
