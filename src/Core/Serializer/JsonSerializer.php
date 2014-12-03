@@ -79,7 +79,7 @@ class JsonSerializer implements SerializerInterface
             $data['events'][] = $this->cachedIds[$event->getId()];
         }
 
-        return json_encode($data, JSON_PRETTY_PRINT);
+        return json_encode($data);
     }
 
     /**
