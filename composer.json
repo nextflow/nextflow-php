@@ -1,0 +1,22 @@
+{
+    "name": "nextflow/nextflow-php",
+    "description": "A PHP library to create application flows.",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "2.7.*",
+        "phpunit/phpunit": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "NextFlow\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NextFlowTest\\": "tests/"
+        }
+    }
+}

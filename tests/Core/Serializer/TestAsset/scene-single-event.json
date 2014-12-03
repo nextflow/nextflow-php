@@ -1,0 +1,16 @@
+{
+    "type": "NextFlow\\Core\\Scene\\Scene",
+    "name": null,
+    "nodes": {
+        "0": {
+            "type": "NextFlow\\Core\\Event\\NamedEvent",
+            "parameters": [],
+            "sockets": {
+                "out": []
+            }
+        }
+    },
+    "events": [
+        0
+    ]
+}

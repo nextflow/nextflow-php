@@ -1,0 +1,5 @@
+composer.phar
+docs
+nbproject
+php-cs-fixer.phar
+vendor
