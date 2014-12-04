@@ -9,53 +9,21 @@
 
 namespace NextFlow\Arrays\Action;
 
-use NextFlow\Core\Action\AbstractAction;
+use NextFlow\Core\Node\NodeInterface;
 
 /**
  * Pops an element from the back of an array.
  */
-class PopBackAction extends AbstractAction
+class PopBackAction extends AbstractPopAction
 {
-    /** The output action socket. */
-    const SOCKET_OUTPUT = 'out';
-
-    /** The array variable socket. */
-    const SOCKET_ARRAY = 'array';
-
-    /** The data variable socket. */
-    const SOCKET_DATA = 'data';
-
-    /**
-     * Initializes a new instance of this class.
-     */
-    public function __construct()
+    protected function executePop(NodeInterface $node)
     {
-        parent::__construct();
+        $arrayValue = $node->getValue();
 
-        $this->createSocket(self::SOCKET_OUTPUT);
-        $this->createSocket(self::SOCKET_ARRAY);
-        $this->createSocket(self::SOCKET_DATA);
-    }
-
-    /**
-     * Executes the node's logic.
-     */
-    public function execute()
-    {
-        $array = $this->getSocket(self::SOCKET_ARRAY)->getNode(0);
-        if ($array === null) {
-            throw new \InvalidArgumentException('No array variable provided.');
-        }
-
-        $arrayValue = $array->getValue();
         $poppedValue = array_pop($arrayValue);
-        $array->setValue($arrayValue);
 
-        $dataSocket = $this->getSocket(self::SOCKET_DATA);
-        if ($dataSocket->hasNodes()) {
-            $dataSocket->getNode(0)->setValue($poppedValue);
-        }
+        $node->setValue($arrayValue);
 
-        $this->activate(self::SOCKET_OUTPUT);
+        return $poppedValue;
     }
 }
