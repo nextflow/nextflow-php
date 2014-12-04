@@ -101,8 +101,8 @@ class JsonSerializer implements SerializerInterface
             $scene = new $sceneClass();
             $scene->setName($json->name);
 
-            foreach ($json->nodes as $nodeId => $nodeJson) {
-                $this->unserializeNode($nodeId, $nodeJson);
+            foreach ($json->nodes as $nodeJson) {
+                $this->unserializeNode($nodeJson);
             }
 
             foreach ($json->nodes as $nodeId => $nodeJson) {
@@ -124,10 +124,9 @@ class JsonSerializer implements SerializerInterface
     /**
      * Unserializes a node.
      *
-     * @param string $id The id of the node.
      * @param array $json The json value to unserialize.
      */
-    private function unserializeNode($id, $json)
+    private function unserializeNode($json)
     {
         $type = $json->type;
 
