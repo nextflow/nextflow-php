@@ -51,6 +51,13 @@ interface NodeInterface
     public function getParams();
 
     /**
+     * Gets the value of this node.
+     *
+     * @return mixed
+     */
+    public function getValue();
+
+    /**
      * Gets the socket with the given index.
      *
      * @param string $name The name of the socket to get.
@@ -80,4 +87,11 @@ interface NodeInterface
      * @param mixed $value The value to set.
      */
     public function setParam($name, $value);
+
+    /**
+     * Sets the value of this node.
+     *
+     * @param mixed $value
+     */
+    public function setValue($value);
 }

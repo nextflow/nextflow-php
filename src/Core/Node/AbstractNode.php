@@ -36,6 +36,13 @@ abstract class AbstractNode implements NodeInterface
     private $sockets;
 
     /**
+     * The value of this node.
+     *
+     * @var mixed
+     */
+    private $value;
+
+    /**
      * Initializes a new instance of this class.
      */
     public function __construct()
@@ -146,6 +153,16 @@ abstract class AbstractNode implements NodeInterface
     }
 
     /**
+     * Gets the value of this node.
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
      * Checks if the node has a socket with the given name.
      *
      * @param string $name The name of the socket to check.
@@ -165,5 +182,15 @@ abstract class AbstractNode implements NodeInterface
     public function setParam($name, $value)
     {
         $this->parameters[$name] = $value;
+    }
+
+    /**
+     * Sets the value of this node.
+     *
+     * @param mixed $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
     }
 }
