@@ -1,0 +1,1 @@
+{"type":"NextFlowTest\\Core\\Serializer\\TestAsset\\DummyScene","name":null,"nodes":{"0":{"type":"NextFlow\\Core\\Event\\NamedEvent","parameters":[],"sockets":{"out":[1]}},"1":{"type":"NextFlow\\Php\\Action\\EchoAction","parameters":[],"sockets":{"out":[],"data":[]}}},"events":[0]}

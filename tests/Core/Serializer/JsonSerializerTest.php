@@ -59,4 +59,23 @@ class JsonSerializerTest extends PHPUnit_Framework_TestCase
 
         // TODO
     }
+
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testUnserializeInvalidSceneUnknownClass()
+    {
+        $serializer = new JsonSerializer();
+        $serializer->unserialize(file_get_contents(__DIR__ . '/TestAsset/invalid-scene-unknown-class.json'));
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage The class NextFlowTest\Core\Serializer\TestAsset\DummyScene should implement SceneInterface.
+     */
+    public function testUnserializeInvalidSceneWrongImplementation()
+    {
+        $serializer = new JsonSerializer();
+        $serializer->unserialize(file_get_contents(__DIR__ . '/TestAsset/invalid-scene-class.json'));
+    }
 }

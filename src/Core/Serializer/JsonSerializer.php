@@ -97,8 +97,14 @@ class JsonSerializer implements SerializerInterface
 
         if (isset($json->type)) {
             $sceneClass = $json->type;
+            if (!class_exists($sceneClass)) {
+                throw new \RuntimeException('Invalid scene class unserialized: ' . $sceneClass);
+            }
 
             $scene = new $sceneClass();
+            if (!$scene instanceof SceneInterface) {
+                throw new \RuntimeException(sprintf('The class %s should implement SceneInterface.', $sceneClass));
+            }
             $scene->setName($json->name);
 
             foreach ($json->nodes as $nodeJson) {
