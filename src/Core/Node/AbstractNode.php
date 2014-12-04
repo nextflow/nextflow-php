@@ -64,12 +64,13 @@ abstract class AbstractNode implements NodeInterface
     /**
      * Binds the given node to a socket.
      *
-     * @param string $socket The name of the socket to bind to.
+     * @param string $socketName The name of the socket to bind to.
      * @param NodeInterface $node The node to bind to.
+     * @return int
      */
-    public function bind($socket, NodeInterface $node)
+    public function bind($socketName, NodeInterface $node)
     {
-        $socket = $this->getSocket($socket);
+        $socket = $this->getSocket($socketName);
 
         $socket->addNode($node);
 

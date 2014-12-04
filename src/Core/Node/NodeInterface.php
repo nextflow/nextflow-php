@@ -19,7 +19,7 @@ interface NodeInterface
      *
      * @param string $socket The name of the socket to bind to.
      * @param NodeInterface $node The node to bind to.
-     * @return Returns the index of the node on the socket.
+     * @return int Returns the index of the node on the socket.
      */
     public function bind($socket, NodeInterface $node);
 
