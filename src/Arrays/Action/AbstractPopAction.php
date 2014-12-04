@@ -59,5 +59,11 @@ abstract class AbstractPopAction extends AbstractAction
         $this->activate(self::SOCKET_OUTPUT);
     }
 
+    /**
+     * Executes the pop logic.
+     *
+     * @param NodeInterface $node The node to pop data from.
+     * @return mixed
+     */
     abstract protected function executePop(NodeInterface $node);
 }

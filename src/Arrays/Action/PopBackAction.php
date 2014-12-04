@@ -16,6 +16,12 @@ use NextFlow\Core\Node\NodeInterface;
  */
 class PopBackAction extends AbstractPopAction
 {
+    /**
+     * Executes the pop logic.
+     *
+     * @param NodeInterface $node The node to pop data from.
+     * @return mixed
+     */
     protected function executePop(NodeInterface $node)
     {
         $arrayValue = $node->getValue();
