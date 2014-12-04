@@ -80,6 +80,8 @@ class SendMailAction extends AbstractAction
 
     /**
      * Builds the headers that need to be send with the email.
+     *
+     * @return string
      */
     private function buildHeaders()
     {
@@ -92,5 +94,7 @@ class SendMailAction extends AbstractAction
             $headers .= 'From: ' . $fromValue . "\r\n";
             $headers .= 'Reply-To: ' . $fromValue . "\r\n";
         }
+
+        return $headers;
     }
 }
