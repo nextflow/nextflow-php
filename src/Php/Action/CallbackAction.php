@@ -22,14 +22,14 @@ class CallbackAction extends AbstractAction
     /**
      * The callback that should be invoked.
      *
-     * @var mixed
+     * @var callable
      */
     private $callback;
 
     /**
      * Initializes a new instance of this class.
      *
-     * @param $callback The callback.
+     * @param callable $callback The callback.
      */
     public function __construct($callback)
     {
