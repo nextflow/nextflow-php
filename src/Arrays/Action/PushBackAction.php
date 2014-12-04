@@ -9,54 +9,25 @@
 
 namespace NextFlow\Arrays\Action;
 
-use NextFlow\Core\Action\AbstractAction;
+use NextFlow\Core\Node\NodeInterface;
 
 /**
  * Pushes an element at the back of an array.
  */
-class PushBackAction extends AbstractAction
+class PushBackAction extends AbstractPushAction
 {
-    /** The output action socket. */
-    const SOCKET_OUTPUT = 'out';
-
-    /** The array variable socket. */
-    const SOCKET_ARRAY = 'array';
-
-    /** The data variable socket. */
-    const SOCKET_DATA = 'data';
-
     /**
-     * Initializes a new instance of this class.
+     * Executes the push logic.
+     *
+     * @param NodeInterface $node The node to push data to.
+     * @param mixed $value The value to push.
      */
-    public function __construct()
+    protected function executePush(NodeInterface $node, $value)
     {
-        parent::__construct();
+        $arrayValue = $node->getValue();
 
-        $this->createSocket(self::SOCKET_OUTPUT);
-        $this->createSocket(self::SOCKET_ARRAY);
-        $this->createSocket(self::SOCKET_DATA);
-    }
+        $arrayValue[] = $value;
 
-    /**
-     * Executes the node's logic.
-     */
-    public function execute()
-    {
-        $array = $this->getSocket(self::SOCKET_ARRAY)->getNode(0);
-        if ($array === null) {
-            throw new \InvalidArgumentException('No array variable provided.');
-        }
-
-        $data = $this->getSocket(self::SOCKET_DATA)->getNode(0);
-        if ($data === null) {
-            throw new \InvalidArgumentException('No array variable provided.');
-        }
-
-        $arrayValue = $array->getValue();
-        $arrayValue[] = $data->getValue();
-
-        $array->setValue($arrayValue);
-
-        $this->activate(self::SOCKET_OUTPUT);
+        $node->setValue($arrayValue);
     }
 }
