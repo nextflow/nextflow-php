@@ -63,7 +63,7 @@ interface NodeInterface
      * @param string $name The name of the socket to get.
      * @return Socket
      */
-    public function getSocket($index);
+    public function getSocket($name);
 
     /**
      * Gets a list with all sockets that exist for this node.

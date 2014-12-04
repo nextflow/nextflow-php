@@ -71,9 +71,9 @@ abstract class AbstractAction extends BaseAbstractAction
     /**
      * The method that calculates the value.
      *
-     * @param int $lft The left value.
-     * @param int $rgt The right value.
-     * @return Returns the calculated value.
+     * @param double|float|int $lft The left value.
+     * @param double|float|int $rgt The right value.
+     * @return double|float|int Returns the calculated value.
      */
     abstract protected function calculateValue($lft, $rgt);
 }

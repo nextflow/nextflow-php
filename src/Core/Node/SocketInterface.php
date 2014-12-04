@@ -50,6 +50,7 @@ interface SocketInterface
     /**
      * Gets the node at the given index.
      *
+     * @param int $index The index of the node to get.
      * @return NodeInterface
      */
     public function getNode($index);
