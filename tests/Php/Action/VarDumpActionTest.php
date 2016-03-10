@@ -27,13 +27,17 @@ class VarDumpActionTest extends PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
+        ob_start();
+
         $variableNode = new StringVariable('hello');
 
         $action = new VarDumpAction();
         $action->getSocket(VarDumpAction::SOCKET_DATA)->addNode($variableNode);
         $action->execute();
 
-        $this->expectOutputString('string(5) "hello"' . "\n");
+        $content = ob_get_clean();
+
+        $this->assertRegExp('/string\(5\) "hello"/', $content);
     }
 
     /**
