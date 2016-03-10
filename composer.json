@@ -3,11 +3,12 @@
     "description": "A PHP library to create application flows.",
     "license": "MIT",
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.3.3",
+        "container-interop/container-interop": "^1.1"
     },
     "require-dev": {
-        "phpdocumentor/phpdocumentor": "2.7.*",
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "^4.5",
+        "zendframework/zend-servicemanager": "^3.0"
     },
     "autoload": {
         "psr-4": {

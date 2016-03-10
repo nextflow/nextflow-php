@@ -3,7 +3,7 @@
  * NextFlow (http://github.com/nextflow)
  *
  * @link http://github.com/nextflow/nextflow-php for the canonical source repository
- * @copyright Copyright (c) 2014 NextFlow (http://github.com/nextflow)
+ * @copyright Copyright (c) 2014-2016 NextFlow (http://github.com/nextflow)
  * @license https://raw.github.com/nextflow/nextflow-php/master/LICENSE MIT
  */
 
@@ -15,7 +15,7 @@ use NextFlow\Core\Node\NodeInterface;
 /**
  * A condition that is able to switch between multiple values.
  */
-class SwitchCondition extends AbstractAction
+final class SwitchCondition extends AbstractAction
 {
     /** The socket that connects the value variable. */
     const SOCKET_VALUE = 'value';

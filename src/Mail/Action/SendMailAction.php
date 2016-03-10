@@ -3,18 +3,21 @@
  * NextFlow (http://github.com/nextflow)
  *
  * @link http://github.com/nextflow/nextflow-php for the canonical source repository
- * @copyright Copyright (c) 2014 NextFlow (http://github.com/nextflow)
+ * @copyright Copyright (c) 2014-2016 NextFlow (http://github.com/nextflow)
  * @license https://raw.github.com/nextflow/nextflow-php/master/LICENSE MIT
  */
 
 namespace NextFlow\Mail\Action;
 
+use InvalidArgumentException;
 use NextFlow\Core\Action\AbstractAction;
+use NextFlow\Mail\Transport\TransportInterface;
+use RuntimeException;
 
 /**
  * An action that makes it possible to send an e-mail.
  */
-class SendMailAction extends AbstractAction
+final class SendMailAction extends AbstractAction
 {
     /** The socket that is activated when this action is successful. */
     const SOCKET_OUTPUT_SUCCESS = 'success';
@@ -35,9 +38,16 @@ class SendMailAction extends AbstractAction
     const SOCKET_FROM = 'from';
 
     /**
-     * Initializes a new instance of this class.
+     * @var TransportInterface
      */
-    public function __construct()
+    private $transport;
+
+    /**
+     * Initializes a new instance of this class.
+     *
+     * @param TransportInterface $transport The mail transport used to send email messages.
+     */
+    public function __construct(TransportInterface $transport)
     {
         parent::__construct();
 
@@ -47,6 +57,8 @@ class SendMailAction extends AbstractAction
         $this->createSocket(self::SOCKET_SUBJECT);
         $this->createSocket(self::SOCKET_MESSAGE);
         $this->createSocket(self::SOCKET_FROM);
+
+        $this->transport = $transport;
     }
 
     /**
@@ -54,24 +66,16 @@ class SendMailAction extends AbstractAction
      */
     public function execute()
     {
-        $toValue = $this->getSocket(self::SOCKET_TO)->getNode(0)->getValue();
-        if ($toValue === null) {
-            throw new \InvalidArgumentException('No address to send an e-mail to.');
-        }
+        $params = [
+            'to' => $this->getSocketValue(self::SOCKET_TO, 'No address to send an e-mail to.'),
+            'subject' => $this->getSocketValue(self::SOCKET_SUBJECT, 'There is no subject set.'),
+            'message' => $this->getSocketValue(self::SOCKET_MESSAGE, 'There is no message to send.'),
+            'from' => $this->getSocketValue(self::SOCKET_FROM, 'There is no from address set.'),
+        ];
 
-        $subjectValue = $this->getSocket(self::SOCKET_SUBJECT)->getNode(0)->getValue();
-        if ($subjectValue === null) {
-            throw new \InvalidArgumentException('There is no subject set.');
-        }
+        $result = $this->transport->send($params);
 
-        $messageValue = $this->getSocket(self::SOCKET_MESSAGE)->getNode(0)->getValue();
-        if ($messageValue === null) {
-            throw new \InvalidArgumentException('There is not message to send.');
-        }
-
-        $headers = $this->buildHeaders();
-
-        if (mail($toValue, $subjectValue, $messageValue, $headers)) {
+        if ($result) {
             $this->activate(self::SOCKET_OUTPUT_SUCCESS);
         } else {
             $this->activate(self::SOCKET_OUTPUT_ERROR);
@@ -79,22 +83,26 @@ class SendMailAction extends AbstractAction
     }
 
     /**
-     * Builds the headers that need to be send with the email.
+     * Gets the value of the given socket.
      *
-     * @return string
+     * @param string $socketName The name of the socket to get the value for.
+     * @param string $message The message of the exception that is thrown in case of an error.
+     * @return mixed
+     * @throws RuntimeException Thrown when there are no nodes.
      */
-    private function buildHeaders()
+    private function getSocketValue($socketName, $message)
     {
-        $headers = 'X-Mailer: PHP/' . phpversion() . "\r\n";
-
-        $fromSocket = $this->getSocket(self::SOCKET_FROM);
-        if ($fromSocket->hasNodes()) {
-            $fromValue = $fromSocket->getNode(0)->getValue();
-
-            $headers .= 'From: ' . $fromValue . "\r\n";
-            $headers .= 'Reply-To: ' . $fromValue . "\r\n";
+        $socket = $this->getSocket($socketName);
+        if (!$socket || !$socket->hasNodes()) {
+            throw new RuntimeException(sprintf('The socket "%s" has no nodes.', $socketName));
         }
 
-        return $headers;
+        $value = $socket->getNode(0)->getValue();
+
+        if ($value === null) {
+            throw new InvalidArgumentException($message);
+        }
+
+        return $value;
     }
 }

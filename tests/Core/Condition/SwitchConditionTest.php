@@ -3,7 +3,7 @@
  * NextFlow (http://github.com/nextflow)
  *
  * @link http://github.com/nextflow/nextflow-php for the canonical source repository
- * @copyright Copyright (c) 2014 NextFlow (http://github.com/nextflow)
+ * @copyright Copyright (c) 2014-2016 NextFlow (http://github.com/nextflow)
  * @license https://raw.github.com/nextflow/nextflow-php/master/LICENSE MIT
  */
 
@@ -16,6 +16,7 @@ class SwitchConditionTest extends \PHPUnit_Framework_TestCase
 {
     public function testFirstSocket()
     {
+        // Arrange
         $neverAction = $this->getMock('NextFlow\Core\Action\AbstractAction', array('execute'));
         $neverAction->expects($this->never())->method('execute');
 
@@ -27,13 +28,17 @@ class SwitchConditionTest extends \PHPUnit_Framework_TestCase
         $condition->bind(1, $action);
         $condition->bind(2, $neverAction);
         $condition->bind(3, $neverAction);
-        $this->assertCount(4, $condition->getSockets());
 
+        // Act
         $condition->execute();
+
+        // Assert
+        $this->assertCount(4, $condition->getSockets());
     }
 
     public function testMiddleSocket()
     {
+        // Arrange
         $neverAction = $this->getMock('NextFlow\Core\Action\AbstractAction', array('execute'));
         $neverAction->expects($this->never())->method('execute');
 
@@ -45,13 +50,17 @@ class SwitchConditionTest extends \PHPUnit_Framework_TestCase
         $condition->bind(1, $neverAction);
         $condition->bind(2, $action);
         $condition->bind(3, $neverAction);
-        $this->assertCount(4, $condition->getSockets());
 
+        // Act
         $condition->execute();
+
+        // Assert
+        $this->assertCount(4, $condition->getSockets());
     }
 
     public function testLastSocket()
     {
+        // Arrange
         $neverAction = $this->getMock('NextFlow\Core\Action\AbstractAction', array('execute'));
         $neverAction->expects($this->never())->method('execute');
 
@@ -63,13 +72,17 @@ class SwitchConditionTest extends \PHPUnit_Framework_TestCase
         $condition->bind(1, $neverAction);
         $condition->bind(2, $neverAction);
         $condition->bind(3, $action);
-        $this->assertCount(4, $condition->getSockets());
 
+        // Act
         $condition->execute();
+
+        // Assert
+        $this->assertCount(4, $condition->getSockets());
     }
 
     public function testNoValidValue()
     {
+        // Arrange
         $neverAction = $this->getMock('NextFlow\Core\Action\AbstractAction', array('execute'));
         $neverAction->expects($this->never())->method('execute');
 
@@ -78,8 +91,11 @@ class SwitchConditionTest extends \PHPUnit_Framework_TestCase
         $condition->bind(1, $neverAction);
         $condition->bind(2, $neverAction);
         $condition->bind(3, $neverAction);
-        $this->assertCount(4, $condition->getSockets());
 
+        // Act
         $condition->execute();
+
+        // Assert
+        $this->assertCount(4, $condition->getSockets());
     }
 }

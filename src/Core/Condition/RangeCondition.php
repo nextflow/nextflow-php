@@ -3,7 +3,7 @@
  * NextFlow (http://github.com/nextflow)
  *
  * @link http://github.com/nextflow/nextflow-php for the canonical source repository
- * @copyright Copyright (c) 2014 NextFlow (http://github.com/nextflow)
+ * @copyright Copyright (c) 2014-2016 NextFlow (http://github.com/nextflow)
  * @license https://raw.github.com/nextflow/nextflow-php/master/LICENSE MIT
  */
 
@@ -14,7 +14,7 @@ use NextFlow\Core\Action\AbstractAction;
 /**
  * A condition that checks if a value is within a range.
  */
-class RangeCondition extends AbstractAction
+final class RangeCondition extends AbstractAction
 {
     /** The socket that is activated when the result is true. */
     const SOCKET_TRUE = 'true';

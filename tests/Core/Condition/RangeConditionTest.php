@@ -3,7 +3,7 @@
  * NextFlow (http://github.com/nextflow)
  *
  * @link http://github.com/nextflow/nextflow-php for the canonical source repository
- * @copyright Copyright (c) 2014 NextFlow (http://github.com/nextflow)
+ * @copyright Copyright (c) 2014-2016 NextFlow (http://github.com/nextflow)
  * @license https://raw.github.com/nextflow/nextflow-php/master/LICENSE MIT
  */
 
@@ -16,6 +16,7 @@ class RangeConditionTest extends \PHPUnit_Framework_TestCase
 {
     public function testWithinRange()
     {
+        // Arrange
         $neverAction = $this->getMock('NextFlow\Core\Action\AbstractAction', array('execute'));
         $neverAction->expects($this->never())->method('execute');
 
@@ -28,11 +29,17 @@ class RangeConditionTest extends \PHPUnit_Framework_TestCase
         $condition->bind(RangeCondition::SOCKET_MIN, new AnyVariable(1));
         $condition->bind(RangeCondition::SOCKET_MAX, new AnyVariable(5));
         $condition->bind(RangeCondition::SOCKET_VALUE, new AnyVariable(2));
+
+        // Act
         $condition->execute();
+
+        // Assert
+        // ...
     }
 
     public function testEqualToMinimum()
     {
+        // Arrange
         $neverAction = $this->getMock('NextFlow\Core\Action\AbstractAction', array('execute'));
         $neverAction->expects($this->never())->method('execute');
 
@@ -45,11 +52,17 @@ class RangeConditionTest extends \PHPUnit_Framework_TestCase
         $condition->bind(RangeCondition::SOCKET_MIN, new AnyVariable(1));
         $condition->bind(RangeCondition::SOCKET_MAX, new AnyVariable(5));
         $condition->bind(RangeCondition::SOCKET_VALUE, new AnyVariable(1));
+
+        // Act
         $condition->execute();
+
+        // Assert
+        // ...
     }
 
     public function testEqualToMaximum()
     {
+        // Arrange
         $neverAction = $this->getMock('NextFlow\Core\Action\AbstractAction', array('execute'));
         $neverAction->expects($this->never())->method('execute');
 
@@ -62,11 +75,17 @@ class RangeConditionTest extends \PHPUnit_Framework_TestCase
         $condition->bind(RangeCondition::SOCKET_MIN, new AnyVariable(1));
         $condition->bind(RangeCondition::SOCKET_MAX, new AnyVariable(5));
         $condition->bind(RangeCondition::SOCKET_VALUE, new AnyVariable(5));
+
+        // Act
         $condition->execute();
+
+        // Assert
+        // ...
     }
 
     public function testLessThanRange()
     {
+        // Arrange
         $neverAction = $this->getMock('NextFlow\Core\Action\AbstractAction', array('execute'));
         $neverAction->expects($this->never())->method('execute');
 
@@ -79,11 +98,17 @@ class RangeConditionTest extends \PHPUnit_Framework_TestCase
         $condition->bind(RangeCondition::SOCKET_MIN, new AnyVariable(1));
         $condition->bind(RangeCondition::SOCKET_MAX, new AnyVariable(5));
         $condition->bind(RangeCondition::SOCKET_VALUE, new AnyVariable(0));
+
+        // Act
         $condition->execute();
+
+        // Assert
+        // ...
     }
 
     public function testGreaterThanRange()
     {
+        // Arrange
         $neverAction = $this->getMock('NextFlow\Core\Action\AbstractAction', array('execute'));
         $neverAction->expects($this->never())->method('execute');
 
@@ -96,6 +121,11 @@ class RangeConditionTest extends \PHPUnit_Framework_TestCase
         $condition->bind(RangeCondition::SOCKET_MIN, new AnyVariable(1));
         $condition->bind(RangeCondition::SOCKET_MAX, new AnyVariable(5));
         $condition->bind(RangeCondition::SOCKET_VALUE, new AnyVariable(6));
+
+        // Act
         $condition->execute();
+
+        // Assert
+        // ...
     }
 }

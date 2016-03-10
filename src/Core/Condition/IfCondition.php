@@ -3,7 +3,7 @@
  * NextFlow (http://github.com/nextflow)
  *
  * @link http://github.com/nextflow/nextflow-php for the canonical source repository
- * @copyright Copyright (c) 2014 NextFlow (http://github.com/nextflow)
+ * @copyright Copyright (c) 2014-2016 NextFlow (http://github.com/nextflow)
  * @license https://raw.github.com/nextflow/nextflow-php/master/LICENSE MIT
  */
 
@@ -14,7 +14,7 @@ use NextFlow\Core\Action\AbstractAction;
 /**
  * A condition that compares two values with each other.
  */
-class IfCondition extends AbstractAction
+final class IfCondition extends AbstractAction
 {
     /** The output socket that is activated when the values are equal. */
     const SOCKET_EQUAL = 'equal';

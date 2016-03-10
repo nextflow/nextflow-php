@@ -3,14 +3,14 @@
  * NextFlow (http://github.com/nextflow)
  *
  * @link http://github.com/nextflow/nextflow-php for the canonical source repository
- * @copyright Copyright (c) 2014 NextFlow (http://github.com/nextflow)
+ * @copyright Copyright (c) 2014-2016 NextFlow (http://github.com/nextflow)
  * @license https://raw.github.com/nextflow/nextflow-php/master/LICENSE MIT
  */
 
 namespace NextFlow\Core\Node;
 
 /**
- * The base class for all node types.
+ * The base final class for all node types.
  */
 abstract class AbstractNode implements NodeInterface
 {
@@ -49,6 +49,19 @@ abstract class AbstractNode implements NodeInterface
     {
         $this->parameters = array();
         $this->sockets = array();
+    }
+
+    /**
+     * Gets the id of the node.
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        if ($this->id === null) {
+            $this->id = spl_object_hash($this);
+        }
+        return $this->id;
     }
 
     /**
@@ -92,16 +105,39 @@ abstract class AbstractNode implements NodeInterface
     }
 
     /**
-     * Gets the id of the node.
+     * Gets the socket with the given index.
      *
-     * @return string
+     * @param string $name The name of the socket to get.
+     * @return Socket
      */
-    public function getId()
+    public function getSocket($name)
     {
-        if ($this->id === null) {
-            $this->id = spl_object_hash($this);
+        if (!$this->hasSocket($name)) {
+            throw new \InvalidArgumentException('The socket "' . $name . '" does not exist.');
         }
-        return $this->id;
+
+        return $this->sockets[$name];
+    }
+
+    /**
+     * Gets a list with all sockets that exist for this node.
+     *
+     * @return Socket[]
+     */
+    public function getSockets()
+    {
+        return $this->sockets;
+    }
+
+    /**
+     * Checks if the node has a socket with the given name.
+     *
+     * @param string $name The name of the socket to check.
+     * @return bool
+     */
+    public function hasSocket($name)
+    {
+        return array_key_exists($name, $this->sockets);
     }
 
     /**
@@ -129,28 +165,14 @@ abstract class AbstractNode implements NodeInterface
     }
 
     /**
-     * Gets the socket with the given index.
+     * Sets the parameter with the given name.
      *
-     * @param string $name The name of the socket to get.
-     * @return Socket
+     * @param string $name The name of the parameter to get.
+     * @param mixed $value The value to set.
      */
-    public function getSocket($name)
+    public function setParam($name, $value)
     {
-        if (!$this->hasSocket($name)) {
-            throw new \InvalidArgumentException('The socket "' . $name . '" does not exist.');
-        }
-
-        return $this->sockets[$name];
-    }
-
-    /**
-     * Gets a list with all sockets that exist for this node.
-     *
-     * @return Socket[]
-     */
-    public function getSockets()
-    {
-        return $this->sockets;
+        $this->parameters[$name] = $value;
     }
 
     /**
@@ -161,28 +183,6 @@ abstract class AbstractNode implements NodeInterface
     public function getValue()
     {
         return $this->value;
-    }
-
-    /**
-     * Checks if the node has a socket with the given name.
-     *
-     * @param string $name The name of the socket to check.
-     * @return bool
-     */
-    public function hasSocket($name)
-    {
-        return array_key_exists($name, $this->sockets);
-    }
-
-    /**
-     * Sets the parameter with the given name.
-     *
-     * @param string $name The name of the parameter to get.
-     * @param mixed $value The value to set.
-     */
-    public function setParam($name, $value)
-    {
-        $this->parameters[$name] = $value;
     }
 
     /**

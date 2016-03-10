@@ -3,7 +3,7 @@
  * NextFlow (http://github.com/nextflow)
  *
  * @link http://github.com/nextflow/nextflow-php for the canonical source repository
- * @copyright Copyright (c) 2014 NextFlow (http://github.com/nextflow)
+ * @copyright Copyright (c) 2014-2016 NextFlow (http://github.com/nextflow)
  * @license https://raw.github.com/nextflow/nextflow-php/master/LICENSE MIT
  */
 
@@ -14,7 +14,7 @@ use NextFlow\Core\Scene\SceneInterface;
 /**
  * A serializer that serializes or unserializes a scene to JSON.
  */
-class JsonSerializer implements SerializerInterface
+final class JsonSerializer implements SerializerInterface
 {
     /**
      * A map with id's that are serialized so we don't serialize a node twice.
@@ -98,7 +98,7 @@ class JsonSerializer implements SerializerInterface
         if (isset($json->type)) {
             $sceneClass = $json->type;
             if (!class_exists($sceneClass)) {
-                throw new \RuntimeException('Invalid scene class unserialized: ' . $sceneClass);
+                throw new \RuntimeException('Invalid scene final class unserialized: ' . $sceneClass);
             }
 
             $scene = new $sceneClass();
@@ -136,7 +136,11 @@ class JsonSerializer implements SerializerInterface
     {
         $type = $json->type;
 
-        $instance = new $type();
+        if ($type === 'NextFlow\\Core\\Event\\NamedEvent') {
+            $instance = new $type(null);
+        } else {
+            $instance = new $type();
+        }
 
         foreach ($json->parameters as $name => $value) {
             $instance->setParam($name, $value);
@@ -179,10 +183,6 @@ class JsonSerializer implements SerializerInterface
     private function cacheNodes($nodes)
     {
         foreach ($nodes as $node) {
-            if (array_key_exists($node->getId(), $this->cachedIds)) {
-                continue;
-            }
-
             $this->cachedIds[$node->getId()] = count($this->cachedIds);
             $this->cachedNodes[] = $node;
 

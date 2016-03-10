@@ -3,7 +3,7 @@
  * NextFlow (http://github.com/nextflow)
  *
  * @link http://github.com/nextflow/nextflow-php for the canonical source repository
- * @copyright Copyright (c) 2014 NextFlow (http://github.com/nextflow)
+ * @copyright Copyright (c) 2014-2016 NextFlow (http://github.com/nextflow)
  * @license https://raw.github.com/nextflow/nextflow-php/master/LICENSE MIT
  */
 
@@ -26,6 +26,18 @@ class AbstractNodeTest extends PHPUnit_Framework_TestCase
             'param1' => '123',
             'param2' => '456'
         ), $node->getParams());
+    }
+
+    public function testGetNonExistingParam()
+    {
+        // Arrange
+        $node = new VarDumpAction();
+
+        // Act
+        $result = $node->getParam('whattttt');
+
+        // Assert
+        $this->assertNull($result);
     }
 
     /**

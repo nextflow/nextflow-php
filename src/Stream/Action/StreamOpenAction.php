@@ -3,18 +3,19 @@
  * NextFlow (http://github.com/nextflow)
  *
  * @link http://github.com/nextflow/nextflow-php for the canonical source repository
- * @copyright Copyright (c) 2014 NextFlow (http://github.com/nextflow)
+ * @copyright Copyright (c) 2014-2016 NextFlow (http://github.com/nextflow)
  * @license https://raw.github.com/nextflow/nextflow-php/master/LICENSE MIT
  */
 
 namespace NextFlow\Stream\Action;
 
+use InvalidArgumentException;
 use NextFlow\Core\Action\AbstractAction;
 
 /**
  * Opens a stream.
  */
-class StreamOpenAction extends AbstractAction
+final class StreamOpenAction extends AbstractAction
 {
     /** The output socket. */
     const SOCKET_OUTPUT = 'out';
@@ -46,18 +47,26 @@ class StreamOpenAction extends AbstractAction
      */
     public function execute()
     {
-        $fileNameValue = $this->getSocket(self::SOCKET_FILENAME)->getNode(0)->getValue();
-        if ($fileNameValue === null) {
-            throw new \InvalidArgumentException('There is no filename provided.');
+        $fileNameSocket = $this->getSocket(self::SOCKET_FILENAME);
+        if (!$fileNameSocket || !$fileNameSocket->hasNodes()) {
+            throw new InvalidArgumentException('There is no filename provided.');
         }
 
-        $modeValue = $this->getSocket(self::SOCKET_MODE)->getNode(0)->getValue();
-        if ($modeValue === null) {
-            throw new \InvalidArgumentException('There is stream mode provided.');
+        $modeSocket = $this->getSocket(self::SOCKET_MODE);
+        if (!$modeSocket || !$modeSocket->hasNodes()) {
+            throw new InvalidArgumentException('There is no stream mode provided.');
         }
+
+        $resourceSocket = $this->getSocket(self::SOCKET_STREAM);
+        if (!$resourceSocket || !$resourceSocket->hasNodes()) {
+            throw new InvalidArgumentException('There is no stream variable provided.');
+        }
+
+        $fileNameValue = $fileNameSocket->getNode(0)->getValue();
+        $modeValue = $modeSocket->getNode(0)->getValue();
 
         $resource = fopen($fileNameValue, $modeValue);
-        $this->getSocket(self::SOCKET_STREAM)->getNode(0)->setValue($resource);
+        $resourceSocket->getNode(0)->setValue($resource);
 
         $this->activate(self::SOCKET_OUTPUT);
     }

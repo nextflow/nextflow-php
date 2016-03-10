@@ -3,7 +3,7 @@
  * NextFlow (http://github.com/nextflow)
  *
  * @link http://github.com/nextflow/nextflow-php for the canonical source repository
- * @copyright Copyright (c) 2014 NextFlow (http://github.com/nextflow)
+ * @copyright Copyright (c) 2014-2016 NextFlow (http://github.com/nextflow)
  * @license https://raw.github.com/nextflow/nextflow-php/master/LICENSE MIT
  */
 
@@ -16,6 +16,7 @@ class IfConditionTest extends \PHPUnit_Framework_TestCase
 {
     public function testEquals()
     {
+        // Arrange
         $neverAction = $this->getMock('NextFlow\Core\Action\AbstractAction', array('execute'));
         $neverAction->expects($this->never())->method('execute');
 
@@ -29,11 +30,17 @@ class IfConditionTest extends \PHPUnit_Framework_TestCase
         $condition->bind(IfCondition::SOCKET_NOT_EQUAL, $neverAction);
         $condition->bind(IfCondition::SOCKET_LESS_THAN, $neverAction);
         $condition->bind(IfCondition::SOCKET_GREATER_THAN, $neverAction);
+
+        // Act
         $condition->execute();
+
+        // Assert
+        // ...
     }
 
     public function testNotEqualAndLessThen()
     {
+        // Arrange
         $neverAction = $this->getMock('NextFlow\Core\Action\AbstractAction', array('execute'));
         $neverAction->expects($this->never())->method('execute');
 
@@ -47,11 +54,17 @@ class IfConditionTest extends \PHPUnit_Framework_TestCase
         $condition->bind(IfCondition::SOCKET_NOT_EQUAL, $action);
         $condition->bind(IfCondition::SOCKET_LESS_THAN, $action);
         $condition->bind(IfCondition::SOCKET_GREATER_THAN, $neverAction);
+
+        // Act
         $condition->execute();
+
+        // Assert
+        // ...
     }
 
     public function testNotEqualAndGreaterThen()
     {
+        // Arrange
         $neverAction = $this->getMock('NextFlow\Core\Action\AbstractAction', array('execute'));
         $neverAction->expects($this->never())->method('execute');
 
@@ -65,6 +78,11 @@ class IfConditionTest extends \PHPUnit_Framework_TestCase
         $condition->bind(IfCondition::SOCKET_NOT_EQUAL, $action);
         $condition->bind(IfCondition::SOCKET_LESS_THAN, $neverAction);
         $condition->bind(IfCondition::SOCKET_GREATER_THAN, $action);
+
+        // Act
         $condition->execute();
+
+        // Assert
+        // ...
     }
 }
